@@ -17,18 +17,18 @@ export const initializeSocketConnection = (
   onError?: () => void,
 ) => {
   socket.on('connect', () => {
-    console.log('Connected to WebSocket server');
-    console.log('My id is...', socket.id);
+    // console.log('Connected to WebSocket server');
+    // console.log('My id is...', socket.id);
     onConnected && onConnected(socket.id);
   });
 
   socket.on('connect_error', err => {
-    console.log(`connect_error due to ${err.message}`);
+    // console.log(`connect_error due to ${err.message}`);
     onError && onError();
   });
 
   socket.on('codeSaved', (message: SocketResponse) => {
-    console.log(message);
+    // console.log(message);
     onMessage && onMessage(message);
   });
 };

@@ -22,9 +22,8 @@ export const GateView = () => {
   }, []);
 
   const handleError = useCallback(() => {
-    setIsError(true)
+    setIsError(true);
   }, []);
-
 
   useEffect(() => {
     initializeSocketConnection(handleNewId, handleMessage, handleError);
@@ -41,7 +40,11 @@ export const GateView = () => {
       />
       <Card fill>
         {!!code && <Image src={code} style={styles.image} />}
-        {isError && <Text style={styles.text}>Похоже, не получается соединиться к нашему серверу</Text>}
+        {isError && (
+          <Text style={styles.text}>
+            Похоже, не получается соединиться к нашему серверу
+          </Text>
+        )}
       </Card>
       <Text style={styles.text}>Ещё способы</Text>
       <Button label="Войти по логину" primary />

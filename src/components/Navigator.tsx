@@ -7,11 +7,15 @@ const Drawer = createDrawerNavigator();
 
 export const StackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerShown: false,
+    }}>
       <Stack.Screen
         name="Gate"
         component={GateView}
-        options={{title: 'Вход в приложение'}}
+        options={{
+          gestureEnabled: false,
+        }}
       />
     </Stack.Navigator>
   );
@@ -19,11 +23,12 @@ export const StackNavigator = () => {
 
 export const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator screenOptions={{
+      headerShown: false,
+    }}>
       <Drawer.Screen
         name="HomeStack"
         component={StackNavigator}
-        options={{drawerLabel: 'Главная'}}
       />
     </Drawer.Navigator>
   );

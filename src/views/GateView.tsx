@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Card} from '../components/Card';
 import {Button} from '../components/Button';
@@ -10,6 +10,7 @@ import {
 } from '../api/services/socketService';
 
 export const GateView = () => {
+  const [isError, setIsError] = useState(false);
   const {getCode, code} = useGetCode();
 
   const handleNewId = useCallback((id: string) => {
@@ -20,12 +21,17 @@ export const GateView = () => {
     // ...
   }, []);
 
+  const handleError = useCallback(() => {
+    setIsError(true)
+  }, []);
+
+
   useEffect(() => {
-    initializeSocketConnection(handleNewId, handleMessage);
+    initializeSocketConnection(handleNewId, handleMessage, handleError);
     return () => {
       disconnectSocket();
     };
-  }, [handleNewId, handleMessage]);
+  }, [handleNewId, handleMessage, handleError]);
 
   return (
     <View style={styles.root}>
@@ -33,7 +39,10 @@ export const GateView = () => {
         title="Ожидайте подтверждения"
         text="Вы сможете пользоваться приложением только после того, как ваш код подтвердят существующие пользователи"
       />
-      <Card fill>{!!code && <Image src={code} style={styles.image} />}</Card>
+      <Card fill>
+        {!!code && <Image src={code} style={styles.image} />}
+        {isError && <Text style={styles.text}>Похоже, не получается соединиться к нашему серверу</Text>}
+      </Card>
       <Text style={styles.text}>Ещё способы</Text>
       <Button label="Войти по логину" primary />
       <Button label="Подать заявку" />

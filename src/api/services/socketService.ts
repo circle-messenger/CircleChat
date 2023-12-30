@@ -14,6 +14,7 @@ const socket = io(BASE_URL, {
 export const initializeSocketConnection = (
   onConnected?: (id: string) => void,
   onMessage?: (message: SocketResponse) => void,
+  onError?: () => void,
 ) => {
   socket.on('connect', () => {
     console.log('Connected to WebSocket server');
@@ -23,6 +24,7 @@ export const initializeSocketConnection = (
 
   socket.on('connect_error', err => {
     console.log(`connect_error due to ${err.message}`);
+    onError && onError();
   });
 
   socket.on('codeSaved', (message: SocketResponse) => {
